@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.example.modisapp.databinding.FragmentPhotoBinding
 import com.example.modisapp.models.PhotoModel
+
 
 private const val ARG_PARAM = "photo"
 private const val TAG = "PhotoFragment"
@@ -35,6 +37,15 @@ class PhotoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.v(TAG, photo.toString())
+
+        Glide.with(this)
+            .asBitmap()
+            .load(photo.thumbnailUrl + ".png")
+            .into(binding.image)
+
+        binding.title.text = photo.title
+        binding.url.text = photo.url
+
     }
 
     override fun onDestroyView() {

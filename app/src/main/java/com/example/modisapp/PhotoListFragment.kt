@@ -35,7 +35,7 @@ class PhotoListFragment : Fragment() {
         val navController = this.findNavController()
 
         viewModel.photos.observe(requireActivity()) { p ->
-            Log.v(TAG, photos.toString())
+            Log.v(TAG, p.toString())
             photos = p
         }
 
