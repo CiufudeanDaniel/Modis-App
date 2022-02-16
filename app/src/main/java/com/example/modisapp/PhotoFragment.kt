@@ -41,6 +41,7 @@ class PhotoFragment : Fragment() {
         Glide.with(this)
             .asBitmap()
             .load(photo.thumbnailUrl + ".png")
+            .placeholder(R.drawable.ic_launcher_background)
             .into(binding.image)
 
         binding.title.text = photo.title

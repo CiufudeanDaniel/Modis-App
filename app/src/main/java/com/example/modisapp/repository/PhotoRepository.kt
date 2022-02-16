@@ -8,6 +8,10 @@ class PhotoRepository {
     private val retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitAPI::class.java)
 
     suspend fun getPhotos() : ArrayList<PhotoModel> {
-        return retrofitService.getPhotos()
+        return try {
+            retrofitService.getPhotos()
+        } catch (e: Exception) {
+            arrayListOf()
+        }
     }
 }

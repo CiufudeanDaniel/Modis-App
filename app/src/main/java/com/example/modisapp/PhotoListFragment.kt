@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.example.modisapp.adapters.RecyclerViewAdapter
 import com.example.modisapp.databinding.FragmentPhotoListBinding
 import com.example.modisapp.models.PhotoModel
 import com.example.modisapp.view_models.PhotoViewModel
@@ -37,6 +38,7 @@ class PhotoListFragment : Fragment() {
         viewModel.photos.observe(requireActivity()) { p ->
             Log.v(TAG, p.toString())
             photos = p
+            binding.photoList.adapter = RecyclerViewAdapter(photos)
         }
 
         binding.text.setOnClickListener {
