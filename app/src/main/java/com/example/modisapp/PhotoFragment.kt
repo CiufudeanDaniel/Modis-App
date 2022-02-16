@@ -49,9 +49,7 @@ class PhotoFragment : Fragment() {
             .placeholder(R.drawable.ic_launcher_background)
             .into(binding.image)
 
-        binding.title.text = photo.title
-        binding.url.text = photo.url
-
+        binding.photo = photo
     }
 
     override fun onDestroyView() {

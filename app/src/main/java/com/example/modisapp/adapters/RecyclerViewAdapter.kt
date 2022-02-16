@@ -45,7 +45,7 @@ class ViewHolder(private val itemBinding: ItemPhotoLayoutBinding) : RecyclerView
             .placeholder(R.drawable.ic_launcher_background)
             .into(itemBinding.image)
 
-        itemBinding.title.text = photo.title
+        itemBinding.photo = photo
         itemBinding.root.setOnClickListener {
             val navController = Navigation.findNavController(itemBinding.image)
             navController.navigate(PhotoListFragmentDirections.actionPhotoListFragmentToPhotoFragment(photo))

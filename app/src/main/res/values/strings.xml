@@ -2,4 +2,9 @@
     <string name="app_name">Modis App</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="image_description">Loading Image…</string>
+    <string name="album_id">Album ID: %s</string>
+    <string name="id">ID: %s</string>
+    <string name="url">Url: %s</string>
+    <string name="thumbnail_url">Thumbnail Url: %s</string>
+    <string name="empty_list">No item found.</string>
 </resources>

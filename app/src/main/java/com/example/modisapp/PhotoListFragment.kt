@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import com.example.modisapp.adapters.RecyclerViewAdapter
 import com.example.modisapp.databinding.FragmentPhotoListBinding
 import com.example.modisapp.models.PhotoModel
@@ -33,20 +32,15 @@ class PhotoListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = PhotoViewModel(application = requireActivity().application)
-        val navController = this.findNavController()
-
         viewModel.photos.observe(requireActivity()) { p ->
             Log.v(TAG, p.toString())
             photos = p
             binding.photoList.adapter = RecyclerViewAdapter(photos)
+
+            if (p.size == 0)
+                binding.emptyList.visibility = View.VISIBLE
             for (photo in p)
                 viewModel.addPhoto(photo)
-        }
-
-        binding.text.setOnClickListener {
-            navController.navigate(
-                PhotoListFragmentDirections.actionPhotoListFragmentToPhotoFragment(photos[0])
-            )
         }
     }
 

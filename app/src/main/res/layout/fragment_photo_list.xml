@@ -7,12 +7,13 @@
     tools:context=".PhotoListFragment">
 
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/empty_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:text="@string/empty_list"
         android:gravity="center"
         android:visibility="gone"
-        android:text="@string/hello_blank_fragment" />
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/photo_list"
