@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
 import com.example.modisapp.databinding.FragmentPhotoBinding
 import com.example.modisapp.models.PhotoModel
 
@@ -37,10 +39,13 @@ class PhotoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.v(TAG, photo.toString())
+        val glideUrl = GlideUrl(photo.thumbnailUrl, LazyHeaders.Builder()
+            .addHeader("User-Agent",
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit / 537.36(KHTML, like Gecko) Chrome  47.0.2526.106 Safari / 537.36")
+            .build())
 
         Glide.with(this)
-            .asBitmap()
-            .load(photo.thumbnailUrl + ".png")
+            .load(glideUrl)
             .placeholder(R.drawable.ic_launcher_background)
             .into(binding.image)
 

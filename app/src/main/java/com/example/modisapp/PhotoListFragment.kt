@@ -18,9 +18,8 @@ class PhotoListFragment : Fragment() {
     private var _binding: FragmentPhotoListBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel = PhotoViewModel()
+    private lateinit var viewModel: PhotoViewModel
     private var photos = arrayListOf<PhotoModel>()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,12 +32,15 @@ class PhotoListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = PhotoViewModel(application = requireActivity().application)
         val navController = this.findNavController()
 
         viewModel.photos.observe(requireActivity()) { p ->
             Log.v(TAG, p.toString())
             photos = p
             binding.photoList.adapter = RecyclerViewAdapter(photos)
+            for (photo in p)
+                viewModel.addPhoto(photo)
         }
 
         binding.text.setOnClickListener {
