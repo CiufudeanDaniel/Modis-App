@@ -33,6 +33,7 @@ class PhotoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPhotoBinding.inflate(inflater, container, false)
+        binding.photo = photo
         return binding.root
     }
 
@@ -48,8 +49,6 @@ class PhotoFragment : Fragment() {
             .load(glideUrl)
             .placeholder(R.drawable.ic_launcher_background)
             .into(binding.image)
-
-        binding.photo = photo
     }
 
     override fun onDestroyView() {

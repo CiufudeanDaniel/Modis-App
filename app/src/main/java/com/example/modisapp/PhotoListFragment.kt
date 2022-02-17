@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.example.modisapp.adapters.RecyclerViewAdapter
 import com.example.modisapp.databinding.FragmentPhotoListBinding
 import com.example.modisapp.models.PhotoModel
@@ -31,7 +32,7 @@ class PhotoListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = PhotoViewModel(application = requireActivity().application)
+        viewModel = ViewModelProvider(this)[PhotoViewModel::class.java]
         viewModel.photos.observe(requireActivity()) { p ->
             Log.v(TAG, p.toString())
             photos = p
