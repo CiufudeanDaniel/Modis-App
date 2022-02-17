@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.example.modisapp.adapters.RecyclerViewAdapter
 import com.example.modisapp.databinding.FragmentPhotoListBinding
-import com.example.modisapp.models.PhotoModel
 import com.example.modisapp.view_models.PhotoViewModel
 
 private const val TAG = "PhotoListFragment"
@@ -19,7 +18,6 @@ class PhotoListFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: PhotoViewModel
-    private var photos = arrayListOf<PhotoModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,13 +33,28 @@ class PhotoListFragment : Fragment() {
         viewModel = ViewModelProvider(this)[PhotoViewModel::class.java]
         viewModel.photos.observe(requireActivity()) { p ->
             Log.v(TAG, p.toString())
-            photos = p
-            binding.photoList.adapter = RecyclerViewAdapter(photos)
+            binding.photoList.adapter = RecyclerViewAdapter(p)
+            binding.swipeRefreshLayout.isRefreshing = false
 
             if (p.size == 0)
                 binding.emptyList.visibility = View.VISIBLE
+            else {
+                binding.emptyList.visibility = View.GONE
+                binding.orderAsc.visibility = View.VISIBLE
+                binding.orderDesc.visibility = View.VISIBLE
+            }
             for (photo in p)
                 viewModel.addPhoto(photo)
+        }
+
+        binding.orderAsc.setOnClickListener {
+            viewModel.getPhotosFromDB(true)
+        }
+        binding.orderDesc.setOnClickListener {
+            viewModel.getPhotosFromDB(false)
+        }
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.getPhotos(true)
         }
     }
 

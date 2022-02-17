@@ -8,17 +8,16 @@ import androidx.lifecycle.viewModelScope
 import com.example.modisapp.models.PhotoModel
 import com.example.modisapp.repository.PhotoRepository
 import com.example.modisapp.service.AppDatabase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 private const val TAG = "PhotoViewModel"
 class PhotoViewModel(application: Application) : AndroidViewModel(application) {
+    private var job: Job? = null
 
     private val repository: PhotoRepository
     val photos: MutableLiveData<ArrayList<PhotoModel>> by lazy {
         MutableLiveData<ArrayList<PhotoModel>>().also {
-            getPhotos()
+            getPhotos(true)
         }
     }
 
@@ -27,10 +26,21 @@ class PhotoViewModel(application: Application) : AndroidViewModel(application) {
         repository = PhotoRepository(photoDao)
     }
 
-    private fun getPhotos() {
+    fun getPhotos(isAsc: Boolean) {
         Log.v(TAG, "getPhotos")
         viewModelScope.launch(Dispatchers.IO) {
-            val result = repository.getPhotos()
+            val result = repository.getPhotos(isAsc)
+            withContext(Dispatchers.Main) {
+                photos.value = result
+            }
+        }
+    }
+
+    fun getPhotosFromDB(isAsc: Boolean) {
+        Log.v(TAG, "getPhotos from DB")
+        job?.cancel()
+        job = viewModelScope.launch(Dispatchers.IO) {
+            val result = repository.getPhotosFromDB(isAsc)
             withContext(Dispatchers.Main) {
                 photos.value = result
             }

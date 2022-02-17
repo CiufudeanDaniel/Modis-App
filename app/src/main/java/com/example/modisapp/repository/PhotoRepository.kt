@@ -8,12 +8,16 @@ import com.example.modisapp.service.RetrofitClientInstance
 class PhotoRepository(private val photoDao: PhotoDao) {
     private val retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitAPI::class.java)
 
-    suspend fun getPhotos() : ArrayList<PhotoModel> {
+    suspend fun getPhotos(isAsc: Boolean) : ArrayList<PhotoModel> {
         return try {
             retrofitService.getPhotos()
         } catch (e: Exception) {
-            ArrayList(photoDao.getPhotos())
+            getPhotosFromDB(isAsc)
         }
+    }
+
+    suspend fun getPhotosFromDB(isAsc: Boolean) : ArrayList<PhotoModel> {
+        return ArrayList(photoDao.getPhotos(isAsc))
     }
 
     suspend fun addPhoto(photo: PhotoModel) {

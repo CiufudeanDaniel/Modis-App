@@ -7,4 +7,6 @@
     <string name="url">Url: %s</string>
     <string name="thumbnail_url">Thumbnail Url: %s</string>
     <string name="empty_list">No item found.</string>
+    <string name="order_asc">Ascending</string>
+    <string name="order_desc">Descending</string>
 </resources>
