@@ -43,8 +43,7 @@ class PhotoListFragment : Fragment() {
                 binding.orderAsc.visibility = View.VISIBLE
                 binding.orderDesc.visibility = View.VISIBLE
             }
-            for (photo in p)
-                viewModel.addPhoto(photo)
+            viewModel.addPhotos(p)
         }
 
         binding.orderAsc.setOnClickListener {

@@ -20,7 +20,7 @@ class PhotoRepository(private val photoDao: PhotoDao) {
         return ArrayList(photoDao.getPhotos(isAsc))
     }
 
-    suspend fun addPhoto(photo: PhotoModel) {
-        photoDao.addPhoto(photo)
+    suspend fun addPhotos(photos: List<PhotoModel>) {
+        photoDao.addPhotos(photos)
     }
 }

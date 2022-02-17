@@ -47,9 +47,9 @@ class PhotoViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun addPhoto(photoModel: PhotoModel) {
+    fun addPhotos(photoModel: List<PhotoModel>) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.addPhoto(photoModel)
+            repository.addPhotos(photoModel)
         }
     }
 }
