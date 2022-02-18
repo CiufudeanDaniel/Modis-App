@@ -31,29 +31,12 @@ class PhotoListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this)[PhotoViewModel::class.java]
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
         viewModel.photos.observe(requireActivity()) { p ->
             Log.v(TAG, p.toString())
             binding.photoList.adapter = RecyclerViewAdapter(p)
-            binding.swipeRefreshLayout.isRefreshing = false
-
-            if (p.size == 0)
-                binding.emptyList.visibility = View.VISIBLE
-            else {
-                binding.emptyList.visibility = View.GONE
-                binding.orderAsc.visibility = View.VISIBLE
-                binding.orderDesc.visibility = View.VISIBLE
-            }
             viewModel.addPhotos(p)
-        }
-
-        binding.orderAsc.setOnClickListener {
-            viewModel.getPhotosFromDB(true)
-        }
-        binding.orderDesc.setOnClickListener {
-            viewModel.getPhotosFromDB(false)
-        }
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.getPhotos(true)
         }
     }
 
