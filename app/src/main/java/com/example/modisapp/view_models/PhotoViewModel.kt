@@ -10,8 +10,7 @@ import com.example.modisapp.models.PhotoModel
 import com.example.modisapp.repository.PhotoRepository
 import com.example.modisapp.service.AppDatabase
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 
 private const val TAG = "PhotoViewModel"
 class PhotoViewModel(application: Application) : AndroidViewModel(application) {
@@ -78,9 +77,16 @@ class PhotoViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun collectFlow() {
         viewModelScope.launch {
-            countDownFlow.collect { time ->
-                println("Current time is: $time")
-            }
+            countDownFlow
+                .filter { time ->
+                    time % 2 == 0
+                }
+                .map { time ->
+                    time * time
+                }
+                .collect { time ->
+                    println("Current time is: $time")
+                }
         }
     }
 }
