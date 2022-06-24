@@ -10,11 +10,26 @@ import com.example.modisapp.models.PhotoModel
 import com.example.modisapp.repository.PhotoRepository
 import com.example.modisapp.service.AppDatabase
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 
 private const val TAG = "PhotoViewModel"
 class PhotoViewModel(application: Application) : AndroidViewModel(application) {
     private var job: Job? = null
     val isLoading = ObservableBoolean()
+
+
+    val countDownFlow = flow<Int> {
+        val initialValue = 10
+        var currentValue = initialValue
+
+        emit(currentValue)
+        while (currentValue > 0) {
+            delay(1000L)
+            currentValue --
+            emit(currentValue)
+        }
+    }
 
     private val repository: PhotoRepository
     val photos: MutableLiveData<ArrayList<PhotoModel>> by lazy {
@@ -54,6 +69,18 @@ class PhotoViewModel(application: Application) : AndroidViewModel(application) {
     fun addPhotos(photoModel: List<PhotoModel>) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addPhotos(photoModel)
+        }
+    }
+
+    init {
+        collectFlow()
+    }
+
+    private fun collectFlow() {
+        viewModelScope.launch {
+            countDownFlow.collect { time ->
+                println("Current time is: $time")
+            }
         }
     }
 }
